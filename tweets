@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+from termcolor import colored
+from helpers import get_user_timeline
+from analyzer import Analyzer
+
+argv = sys.argv
+
+if len(argv) != 2:
+    print("Usage: ./tweets screen_name")
+    quit()
+positives = os.path.join(sys.path[0], "positive-words.txt")
+negatives = os.path.join(sys.path[0], "negative-words.txt")
+user = argv[1]
+tweets = []
+tweets = get_user_timeline(screen_name=user, count=50)
+analyzer = Analyzer(positives, negatives)
+total = 0
+
+for i in range(len(tweets)):
+    score = analyzer.analyze(tweets[i])
+    if score > 0.0:
+        print(colored(tweets[i], "green"), end=" ")
+        print(colored(score, "green"))
+    elif score < 0.0:
+        print(colored(tweets[i], "red"), end=" ")
+        print(colored(score, "red"))
+    else:
+        print(colored(tweets[i], "yellow"), end=" ")
+        print(colored(score, "yellow"))
+    total = total + score
+
+if total > 0.0:
+    print(colored("Total Score:", "green"), end=" ")
+    print(colored(total, "green"), end="    ")
+    print(colored(":)", "green"))
+elif total < 0.0:
+    print(colored("Total Score:", "red"), end=" ")
+    print(colored(total, "red"), end="    ")
+    print(colored(":(", "red"))
+else:
+    print(colored("Total Score:", "yellow"), end=" ")
+    print(colored(total, "yellow"), end="    ")
+    print(colored(":|", "yellow"))
+
+

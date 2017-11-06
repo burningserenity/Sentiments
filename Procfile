@@ -1,1 +1,1 @@
-app : export FLASK_APP='application.py' && flask run
+web : export FLASK_APP='application.py' && flask run

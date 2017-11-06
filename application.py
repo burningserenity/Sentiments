@@ -11,8 +11,6 @@ app = Flask(__name__)
 
 port = int(os.environ.get('PORT', 5000))
 
-app.run(host='127.0.0.1', port=port)
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -43,3 +41,5 @@ def search():
 
     # render results
     return render_template("search.html", chart=chart, screen_name=screen_name)
+
+app.run(port=port)

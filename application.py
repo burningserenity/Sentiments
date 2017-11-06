@@ -42,4 +42,4 @@ def search():
     # render results
     return render_template("search.html", chart=chart, screen_name=screen_name)
 
-app.run(port=port)
+app.run(host='0.0.0.0', port=port)

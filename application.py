@@ -9,6 +9,10 @@ analyzer = Analyzer(positives, negatives)
 
 app = Flask(__name__)
 
+port = int(os.environ.get('PORT', 3000))
+
+app.run(host='0.0.0.0', port=port)
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -24,7 +28,6 @@ def search():
     # get screen_name's tweets
     tweets = helpers.get_user_timeline(screen_name)
 
-    # TODO
     positive, negative, neutral = 0.0, 0.0, 100.0
     for i in range(len(tweets)):
         tally = analyzer.analyze(tweets[i])
